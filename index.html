@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSmart Pro | Financial Insight Hub 📊</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="src/style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>FinSmart <span>Pro</span></h2>
+        </div>
+        <nav>
+            <a href="#" class="active" onclick="showSection('dashboard')">🏠 Dashboard</a>
+            <a href="#" onclick="showSection('goals')">🎯 Saving Goals</a>
+            <a href="#" onclick="showSection('tips')">💡 Business Tips</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="themeToggle" onclick="toggleDarkMode()">🌓 Toggle Mode</button>
+        </div>
+    </aside>
+
+    <main class="main-content" id="reportArea">
+        <header>
+            <div class="header-text">
+                <h1>Financial Dashboard</h1>
+                <p id="currentDate"></p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-download" onclick="downloadPDF()">📥 Download Report</button>
+            </div>
+        </header>
+
+        <section class="dashboard-grid">
+            <div class="card input-card">
+                <h3>Monthly Income (₹)</h3>
+                <div class="input-wrapper">
+                    <input type="number" id="incomeInput" placeholder="Enter amount..." oninput="updateDashboard()">
+                </div>
+                <p class="hint">Analysis updates automatically as you type.</p>
+            </div>
+
+            <div id="results-grid" class="results-grid">
+                </div>
+        </section>
+
+        <section class="viz-section">
+            <div class="card chart-container">
+                <h3>Spending Allocation (50/30/20)</h3>
+                <canvas id="financeChart"></canvas>
+            </div>
+            
+            <div class="card tips-card">
+                <h3>Financial Advice</h3>
+                <div id="tipBox">
+                    <p>"Invest in yourself, it's the best interest rate."</p>
+                </div>
+                <button class="btn-next" onclick="nextTip()">Next Tip ➔</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="src/script.js"></script>
+    <script>
+        // Display Current Date
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-IN', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        // Function to download PDF of the dashboard
+        function downloadPDF() {
+            const element = document.getElementById('reportArea');
+            const opt = {
+                margin:       10,
+                filename:     'FinSmart_Report.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>
